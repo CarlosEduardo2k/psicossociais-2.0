@@ -21,4 +21,7 @@ public class Administrador {
 
     @Column(nullable = false,length = 150,unique = true)
     private String email;
+
+    @Column(nullable = false, length = 255)
+    private String senha;
 }
