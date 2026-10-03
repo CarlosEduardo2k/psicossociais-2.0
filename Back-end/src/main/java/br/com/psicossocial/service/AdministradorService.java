@@ -46,16 +46,16 @@ public class AdministradorService {
         );
     }
     public AdministradorResponseDTO buscarPorId(Integer id) {
-        Administrador administrador = buscarEntidadePorId(id);
+        Administrador administrador = buscarAdministradorPorId(id);
         return new AdministradorResponseDTO(
                 administrador.getId(),
                 administrador.getNome(),
                 administrador.getCpf(),
                 administrador.getEmail());
     }
-    public AdministradorResponseDTO atualizar(Integer id, AdministradorEdicaoDTO dadosEdicao) {
+    public AdministradorResponseDTO atualizarAdministrador(Integer id, AdministradorEdicaoDTO dadosEdicao) {
 
-        Administrador administrador = buscarEntidadePorId(id);
+        Administrador administrador = buscarAdministradorPorId(id);
         administrador.setNome(dadosEdicao.nome());
         administrador.setEmail(dadosEdicao.email());
         Administrador administradorSalvo = administradorRepository.save(administrador);
@@ -66,7 +66,7 @@ public class AdministradorService {
                 administradorSalvo.getCpf(),
                 administradorSalvo.getEmail());
     }
-    private Administrador buscarEntidadePorId(Integer id) {
+    private Administrador buscarAdministradorPorId(Integer id) {
 
         return administradorRepository.findById(id).orElseThrow(() -> new
                 RegraDeNegocioException("Administrador não encontrado."));

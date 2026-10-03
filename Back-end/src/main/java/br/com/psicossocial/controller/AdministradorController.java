@@ -30,7 +30,7 @@ public class AdministradorController {
     }
     @PutMapping("/{id}")
     public ResponseEntity<AdministradorResponseDTO> atualizar(@PathVariable Integer id, @RequestBody @Valid AdministradorEdicaoDTO dadosEdicao){
-        AdministradorResponseDTO administrador = administradorService.atualizar(id,dadosEdicao);
+        AdministradorResponseDTO administrador = administradorService.atualizarAdministrador(id,dadosEdicao);
         return ResponseEntity.status(HttpStatus.OK).body(administrador);
     }
 }
