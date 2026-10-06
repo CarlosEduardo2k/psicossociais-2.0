@@ -1,4 +1,4 @@
-package br.com.psicossocial.Repository.QuestionarioRepository;
+package br.com.psicossocial.repository;
 
 import br.com.psicossocial.entity.Questionario;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -12,5 +12,6 @@ public interface QuestionarioRepository extends JpaRepository<Questionario,Integ
 
     List<Questionario> findByNome(String nome);
 
+    boolean existsByNome(String nome);
 }
 

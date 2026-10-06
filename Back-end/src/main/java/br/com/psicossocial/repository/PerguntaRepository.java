@@ -1,4 +1,4 @@
-package br.com.psicossocial.Repository.PerguntaRepository;
+package br.com.psicossocial.repository;
 
 import br.com.psicossocial.entity.Pergunta;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,5 +1,5 @@
-package br.com.psicossocial.service.QuestionarioService;
-import br.com.psicossocial.Repository.QuestionarioRepository.QuestionarioRepository;
+package br.com.psicossocial.service;
+import br.com.psicossocial.repository.QuestionarioRepository;
 import br.com.psicossocial.entity.Questionario;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +13,12 @@ public class QuestionarioService {
         this.repository = repository;
     }
     public Questionario cadastrar(Questionario questionario) {
+
+        if (repository.existsByNome(questionario.getNome())) {
+            throw new RuntimeException("Já existe um questionário com esse nome");
+
+        }
+
         return repository.save(questionario);
     }
     public List<Questionario> listarTodos (){
