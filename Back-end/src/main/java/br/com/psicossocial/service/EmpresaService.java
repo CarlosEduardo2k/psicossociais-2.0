@@ -24,7 +24,7 @@ public class EmpresaService {
 
         public EmpresaResponseDTO cadastrar(EmpresaCadastroDTO dadosCadastro){
             if (empresaRepository.existsByCnpj(dadosCadastro.cnpj())){
-                throw  new RegraDeNegocioException("CNPJ já cadastrado");
+                throw  new RegraDeNegocioException("CNPJ já cadastrado.");
             }
 
             Administrador administrador = buscarAdministradorPorId(dadosCadastro.administradorId());
@@ -48,8 +48,12 @@ public class EmpresaService {
                     empresa.getCnpj(),
                     empresa.getAdministrador().getId());
         }
-        public EmpresaResponseDTO atualizarEmpresa(Integer id, EmpresaEdicaoDTO dadosEdicao) {
+        public EmpresaResponseDTO atualizar(Integer id, EmpresaEdicaoDTO dadosEdicao) {
             Empresa empresa = buscarEmpresaPorId(id);
+
+            if (empresaRepository.existsByCnpjAndIdNot(dadosEdicao.cnpj(), id)) {
+                throw new RegraDeNegocioException("CNPJ Já Cadastrado.");
+            }
 
             empresa.setNome(dadosEdicao.nome());
             empresa.setCnpj(dadosEdicao.cnpj());
@@ -63,7 +67,7 @@ public class EmpresaService {
 
         private Empresa buscarEmpresaPorId(Integer id){
             return empresaRepository.findById(id).orElseThrow(()->
-                    new RegraDeNegocioException("empresa não encontrada"));
+                    new RegraDeNegocioException("Empresa não encontrada"));
         }
 
         private Administrador buscarAdministradorPorId(Integer id) {
