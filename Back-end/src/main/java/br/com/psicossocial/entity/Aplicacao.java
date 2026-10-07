@@ -29,6 +29,6 @@ public class Aplicacao {
     private Empresa empresa;
 
     @ManyToOne
-    @JoinColumn(name="questionario_id")
+    @JoinColumn(name="questionario_id", nullable = false)
     private Questionario questionario;
 }
