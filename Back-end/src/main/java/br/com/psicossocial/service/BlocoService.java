@@ -15,8 +15,11 @@ public class BlocoService {
         this.repository = blocoRepository;
     }
 
-
     public Bloco cadastrarBloco(Bloco bloco) {
+        if (bloco.getOrdem()<=0) {
+            throw new RuntimeException("ordem invalida");
+        }
+
         if (repository.existsByNomeAndQuestionarioId(
                 bloco.getNome(),
                 bloco.getQuestionario().getId()

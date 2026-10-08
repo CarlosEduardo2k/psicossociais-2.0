@@ -23,5 +23,4 @@ public class QuestionarioService  {
     public List<Questionario> listarTodos (){
         return repository.findAll();
     }
-
 }
