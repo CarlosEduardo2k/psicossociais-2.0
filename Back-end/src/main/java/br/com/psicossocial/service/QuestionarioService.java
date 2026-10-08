@@ -5,10 +5,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class QuestionarioRepository {
+public class QuestionarioService  {
     private final br.com.psicossocial.repository.QuestionarioRepository repository;
 
-    public QuestionarioRepository(br.com.psicossocial.repository.QuestionarioRepository repository) {
+    public QuestionarioService(br.com.psicossocial.repository.QuestionarioRepository repository) {
         this.repository = repository;
     }
     public Questionario cadastrar(Questionario questionario) {
