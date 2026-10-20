@@ -19,7 +19,7 @@ public class Participacao {
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDateTime dataInicio;
+    private LocalDateTime dataInicio;S
 
     private LocalDateTime dataTermino;
 
