@@ -1,12 +1,23 @@
+
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Login } from './login/login';
+import { Agradecimento } from './agradecimento/agradecimento';
 
 @Component({
-  imports: [RouterOutlet],
   selector: 'app-root',
-  styleUrl: './app.css',
+  standalone: true,
+  imports: [Login, Agradecimento],
   templateUrl: './app.html',
+  styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('front-end');
+  mostrarAgradecimento = signal(false);
+
+  agradecer(): void {
+    this.mostrarAgradecimento.set(true);
+  }
+
+  voltarAoLogin(): void {
+    this.mostrarAgradecimento.set(false);
+  }
 }

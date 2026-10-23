@@ -1,0 +1,117 @@
+
+<div class="login-page">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon">👤</span>
+      <strong>SaudeMental NR01</strong>
+    </div>
+
+    <div class="sidebar-content">
+      <h1>Plataforma de Avaliação de Saúde Mental</h1>
+
+      <p class="description">
+        Em conformidade com a NR01, este sistema permite o
+        monitoramento dos riscos psicossociais no ambiente de
+        trabalho, promovendo o bem-estar e saúde mental dos colaboradores.
+      </p>
+
+      <div class="benefits">
+        <div class="benefit">
+          <span class="benefit-icon">🔒</span>
+          <div>
+            <strong>Sigilo garantido</strong>
+            <p>Respostas anônimas e protegidas</p>
+          </div>
+        </div>
+
+        <div class="benefit">
+          <span class="benefit-icon">📊</span>
+          <div>
+            <strong>Relatórios por setor</strong>
+            <p>Análise coletiva e individual</p>
+          </div>
+        </div>
+
+        <div class="benefit">
+          <span class="benefit-icon">🧠</span>
+          <div>
+            <strong>Avaliação psicológica</strong>
+            <p>Suporte profissional qualificado</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      © 2025 SaudeMental NR01 · Todos os direitos reservados
+    </footer>
+  </aside>
+
+  <main class="main-content">
+    <section class="login-card">
+      <h2>Acesso ao Sistema</h2>
+      <p class="subtitle">Identifique seu perfil e faça login</p>
+
+      <div class="profile-options">
+        <button
+          type="button"
+          class="profile-button"
+          [class.active]="perfilSelecionado === 'funcionario'"
+          (click)="perfilSelecionado = 'funcionario'"
+        >
+          Funcionário
+        </button>
+
+        <button
+          type="button"
+          class="profile-button"
+          [class.active]="perfilSelecionado === 'administrador'"
+          (click)="perfilSelecionado = 'administrador'"
+        >
+          Administrador
+        </button>
+      </div>
+
+      <form (submit)="fazerLogin($event)">
+        <label for="nome">NOME COMPLETO</label>
+        <input
+          id="nome"
+          name="nome"
+          type="text"
+          placeholder="Ex: Maria Souza"
+          required
+        />
+
+        <label for="matricula">MATRÍCULA</label>
+        <input
+          id="matricula"
+          name="matricula"
+          type="text"
+          placeholder="Ex: 00123456"
+          required
+        />
+
+        <label for="senha">SENHA</label>
+        <input
+          id="senha"
+          name="senha"
+          type="password"
+          placeholder="Digite sua senha"
+          required
+        />
+
+        <button
+          type="submit"
+          class="submit-button"
+        >
+          Entrar
+        </button>
+      </form>
+
+      <p class="privacy-notice">
+        Suas respostas são confidenciais e utilizadas apenas
+        para fins de saúde ocupacional.
+      </p>
+    </section>
+  </main>
+</div>
