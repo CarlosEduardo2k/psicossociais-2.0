@@ -1,5 +1,6 @@
 
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-agradecimento',
@@ -9,5 +10,9 @@ import { Component, output } from '@angular/core';
   styleUrl: './agradecimento.css',
 })
 export class Agradecimento {
-  voltar = output<void>();
+  constructor(private readonly router: Router) {}
+
+  voltarAoInicio(): void {
+    void this.router.navigate(['/']);
+  }
 }

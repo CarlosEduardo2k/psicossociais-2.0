@@ -1,5 +1,6 @@
 package br.com.psicossocial.entity;
 
+import br.com.psicossocial.enums.PerfilAdministrador;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -24,4 +25,8 @@ public class Administrador {
 
     @Column(nullable = false, length = 255)
     private String senha;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "perfil", nullable = false, length = 30)
+    private PerfilAdministrador perfil;
 }

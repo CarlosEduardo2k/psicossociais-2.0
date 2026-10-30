@@ -1,5 +1,6 @@
 package br.com.psicossocial.entity;
 
+import br.com.psicossocial.enums.StatusAplicacao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

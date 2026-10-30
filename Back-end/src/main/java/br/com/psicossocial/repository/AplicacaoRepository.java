@@ -1,7 +1,7 @@
 package br.com.psicossocial.repository;
 
 import br.com.psicossocial.entity.Aplicacao;
-import br.com.psicossocial.entity.StatusAplicacao;
+import br.com.psicossocial.enums.StatusAplicacao;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -12,8 +12,6 @@ public interface AplicacaoRepository extends JpaRepository<Aplicacao,Integer > {
     List<Aplicacao> findByStatus(StatusAplicacao status);
     List<Aplicacao> findAllByOrderByDataInicioDesc();
     List<Aplicacao> findByEmpresaId(Integer empresaId);
-    List<Aplicacao> findByStatusAndDataTerminoLessThanEqual(
-            StatusAplicacao status,
-            LocalDateTime dataHora
-    );
+    List<Aplicacao> findByStatusAndDataTerminoLessThanEqual(StatusAplicacao status, LocalDateTime dataHora);
+    boolean existisByEmpresa_Administrador_Id(Integer administrador);
 }

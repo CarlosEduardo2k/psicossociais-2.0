@@ -1,23 +1,12 @@
 
-import { Component, signal } from '@angular/core';
-import { Login } from './login/login';
-import { Agradecimento } from './agradecimento/agradecimento';
+import { Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Login, Agradecimento],
+  imports: [RouterOutlet],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
-export class App {
-  mostrarAgradecimento = signal(false);
-
-  agradecer(): void {
-    this.mostrarAgradecimento.set(true);
-  }
-
-  voltarAoLogin(): void {
-    this.mostrarAgradecimento.set(false);
-  }
-}
+export class App {}
