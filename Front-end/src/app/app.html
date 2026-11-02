@@ -1,8 +1,2 @@
 
-@if (!mostrarAgradecimento()) {
-  <app-login (entrar)="agradecer()"></app-login>
-} @else {
-  <app-agradecimento
-    (voltar)="voltarAoLogin()"
-  ></app-agradecimento>
-}
+<router-outlet />

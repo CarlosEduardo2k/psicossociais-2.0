@@ -9,5 +9,8 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Integer> {
     List<Pergunta> findByTexto(String texto);
 
     boolean existsByTextoAndBlocoId(String texto, Integer blocoId);
-    boolean existsByOrdemInBlocoId(Integer orden, Integer blocoId);
+
+    boolean existsByOrdemAndBlocoId(Integer ordem, Integer blocoId);
+
+    List<Pergunta> findByBlocoId(Integer blocoId);
 }

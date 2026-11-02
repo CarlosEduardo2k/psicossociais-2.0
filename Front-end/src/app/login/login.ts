@@ -1,5 +1,6 @@
 
-import { Component, output } from '@angular/core';
+import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -11,7 +12,7 @@ import { Component, output } from '@angular/core';
 export class Login {
   perfilSelecionado: 'funcionario' | 'administrador' = 'funcionario';
 
-  entrar = output<void>();
+  constructor(private readonly router: Router) {}
 
   fazerLogin(event: Event): void {
     event.preventDefault();
@@ -27,19 +28,21 @@ export class Login {
       '#nome'
     )?.value.trim();
 
-    const matricula = formulario.querySelector<HTMLInputElement>(
-      '#matricula'
+    const identificacao = formulario.querySelector<HTMLInputElement>(
+      this.perfilSelecionado === 'administrador' ? '#cpf' : '#matricula'
     )?.value.trim();
 
     const senha = formulario.querySelector<HTMLInputElement>(
       '#senha'
     )?.value.trim();
 
-    if (!nome || !matricula || !senha) {
+    if (!nome || !identificacao || !senha) {
       alert('Preencha todos os campos antes de continuar.');
       return;
     }
 
-    this.entrar.emit();
+    void this.router.navigate([
+      this.perfilSelecionado === 'administrador' ? '/administrador' : '/agradecimento',
+    ]);
   }
 }

@@ -1,14 +1,15 @@
 package br.com.psicossocial.service;
 import br.com.psicossocial.entity.Questionario;
+import br.com.psicossocial.repository.QuestionarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class QuestionarioService  {
-    private final br.com.psicossocial.repository.QuestionarioRepository repository;
+    private final QuestionarioRepository repository;
 
-    public QuestionarioService(br.com.psicossocial.repository.QuestionarioRepository repository) {
+    public QuestionarioService(QuestionarioRepository repository) {
         this.repository = repository;
     }
     public Questionario cadastrar(Questionario questionario) {
