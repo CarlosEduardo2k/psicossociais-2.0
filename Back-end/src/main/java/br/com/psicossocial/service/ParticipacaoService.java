@@ -5,9 +5,9 @@ package br.com.psicossocial.service;
 import br.com.psicossocial.entity.Aplicacao;
 import br.com.psicossocial.entity.Participacao;
 import br.com.psicossocial.entity.Participante;
-import br.com.psicossocial.entity.StatusParticipacao;
 import br.com.psicossocial.entity.Resposta;
 import br.com.psicossocial.entity.Pergunta;
+import br.com.psicossocial.enums.StatusParticipacao;
 import br.com.psicossocial.repository.RespostaRepository;
 import br.com.psicossocial.repository.PerguntaRepository;
 
@@ -130,9 +130,6 @@ public class ParticipacaoService {
      *
      * Caso contrário, cria uma nova resposta.
      */
-    @Transactional
-    public Resposta salvarResposta(
-
     @Transactional
     public Resposta salvarResposta(
             Integer participacaoId,

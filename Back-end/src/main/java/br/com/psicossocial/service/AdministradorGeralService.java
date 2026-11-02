@@ -82,7 +82,7 @@ public class AdministradorGeralService {
         }
 
         boolean possuiEmpresas = empresaRepository.existsByAdministrador_Id(id);
-        boolean possuiAplicacao = aplicacaoRepository.existisByEmpresa_Administrador_Id(id);
+        boolean possuiAplicacao = aplicacaoRepository.existsByEmpresa_Administrador_Id(id);
         if (possuiAplicacao || possuiEmpresas){
             throw new RegraDeNegocioException("Não é possível Excluir o administrador, pois existe empresas ou aplicação vinculadas");
         }

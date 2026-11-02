@@ -13,5 +13,5 @@ public interface AplicacaoRepository extends JpaRepository<Aplicacao,Integer > {
     List<Aplicacao> findAllByOrderByDataInicioDesc();
     List<Aplicacao> findByEmpresaId(Integer empresaId);
     List<Aplicacao> findByStatusAndDataTerminoLessThanEqual(StatusAplicacao status, LocalDateTime dataHora);
-    boolean existisByEmpresa_Administrador_Id(Integer administrador);
+    boolean existsByEmpresa_Administrador_Id(Integer administrador);
 }

@@ -30,14 +30,14 @@ public class AdministradorGeralController {
         return ResponseEntity.status(HttpStatus.OK).body(buscarAdministrador);
     }
 
-    @GetMapping("/id")
-    public ResponseEntity<AdministradorResponseDTO> atualizar(@RequestBody @Valid @PathVariable AdministradorEdicaoDTO dadosEdicao, Integer id){
+    @PutMapping("/{id}")
+    public ResponseEntity<AdministradorResponseDTO> atualizar(@RequestBody @Valid AdministradorEdicaoDTO dadosEdicao,@PathVariable Integer id){
         AdministradorResponseDTO atualizar = administradorGeralService.atualizarAdministrador(id,dadosEdicao);
         return ResponseEntity.status(HttpStatus.OK).body(atualizar);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> excluir(@PathVariable Integer id){
+    public ResponseEntity<Void> excluir(@PathVariable Integer id,@RequestParam Integer idSolicitante){
         administradorGeralService.excluir(id,idSolicitante);
         return ResponseEntity.noContent().build();
     }
