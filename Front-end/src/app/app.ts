@@ -2,11 +2,12 @@
 import { Component, signal } from '@angular/core';
 import { Login } from './login/login';
 import { Agradecimento } from './agradecimento/agradecimento';
+import { DashboardComponent } from './dashboard/dashboard.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [Login, Agradecimento],
+  imports: [Login, Agradecimento, DashboardComponent],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })
