@@ -2,7 +2,7 @@ import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Login } from './login/login';
 import { Agradecimento } from './agradecimento/agradecimento';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { Administrador } from './administrador/administrador';
 
 @Component({
   selector: 'app-root',

@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
   */
 @RestController
 @RequestMapping("/administradores")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class AdministradorController {
 
     private final AdministradorService administradorService;
@@ -24,13 +26,13 @@ public class AdministradorController {
         this.administradorService = administradorService;
     }
 
-    @GetMapping("/{me}")
+    @GetMapping("/{id}")
     public ResponseEntity<AdministradorResponseDTO> buscarPorId(@PathVariable Integer id){
         AdministradorResponseDTO administrador = administradorService.buscarPorId(id);
         return ResponseEntity.status(HttpStatus.OK).body(administrador);
     }
 
-    @PutMapping("/{me}")
+    @PutMapping("/{id}")
     public ResponseEntity<AdministradorResponseDTO> atualizar(@PathVariable Integer id, @RequestBody @Valid AdministradorEdicaoDTO dadosEdicao){
         AdministradorResponseDTO administrador = administradorService.atualizarAdministrador(id,dadosEdicao);
         return ResponseEntity.status(HttpStatus.OK).body(administrador);

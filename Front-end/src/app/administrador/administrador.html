@@ -1,6 +1,63 @@
-<!-- Tela de Administrador -->
-<main class="admin-page">
-  <section class="admin-card">
-    <h1>Tela de Administrador</h1>
-  </section>
-</main>
+<div class="dashboard-layout">
+  <!-- Componente Lateral -->
+  <app-sidebar (logout)="handleLogout()"></app-sidebar>
+
+  <!-- Área Central -->
+  <main class="main-content">
+    @if (isLoading) {
+      <div class="loading-state">
+        <p>Carregando dados do painel...</p>
+      </div>
+    } @else if (dashboardData) {
+      <header class="header">
+        <h1>Visão Geral</h1>
+        <p class="subtitle">Monitoramento dos riscos psicossociais — {{ dashboardData.mesReferencia }}</p>
+      </header>
+
+      <!-- Grade KPIs -->
+      <section class="cards-grid">
+        <app-metric-card 
+          label="TOTAL DE RESPOSTAS" 
+          [value]="dashboardData.totalRespostas" 
+          subtext="Último mês">
+        </app-metric-card>
+
+        <app-metric-card 
+          label="RISCO CRÍTICO" 
+          [value]="dashboardData.riscoCritico" 
+          subtext="Atenção imediata" 
+          variant="danger">
+        </app-metric-card>
+
+        <app-metric-card 
+          label="RISCO ALTO" 
+          [value]="dashboardData.riscoAlto" 
+          subtext="Acompanhamento" 
+          variant="warning">
+        </app-metric-card>
+
+        <app-metric-card 
+          label="MÉDIA DE ESTRESSE" 
+          [value]="dashboardData.mediaEstresse" 
+          subtext="Escala 1–5" 
+          variant="primary">
+        </app-metric-card>
+      </section>
+
+      <!-- Grade de Gráficos -->
+      <section class="charts-grid">
+        <app-sector-chart 
+          [setores]="dashboardData.nivelRiscoPorSetor.setores" 
+          [valores]="dashboardData.nivelRiscoPorSetor.valores">
+        </app-sector-chart>
+
+        <app-trend-chart 
+          [meses]="dashboardData.tendenciaUltimosMeses.meses" 
+          [estresse]="dashboardData.tendenciaUltimosMeses.estresse"
+          [exaustao]="dashboardData.tendenciaUltimosMeses.exaustao"
+          [qualidadeSono]="dashboardData.tendenciaUltimosMeses.qualidadeSono">
+        </app-trend-chart>
+      </section>
+    }
+  </main>
+</div>
