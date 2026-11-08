@@ -9,6 +9,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/blocos/{blocoId}/perguntas")
+@CrossOrigin(origins = "http://localhost:4200")
 public class PerguntaController {
 
     private final PerguntaService service;

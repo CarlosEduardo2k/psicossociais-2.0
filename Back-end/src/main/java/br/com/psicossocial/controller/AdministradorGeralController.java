@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/administradorGeral")
+@CrossOrigin(origins = "http://localhost:4200")
 public class AdministradorGeralController {
     private final AdministradorGeralService administradorGeralService;
 
