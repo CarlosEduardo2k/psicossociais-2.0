@@ -1,0 +1,44 @@
+<div class="questionario-page">
+  <aside class="sidebar">
+    <div class="brand"><span class="brand-symbol">S</span><span>SaudeMental NR01</span></div>
+    <span class="sidebar-title">AVALIAÇÃO</span>
+
+    <nav class="etapas">
+      <div *ngFor="let etapa of etapas; let i = index" class="etapa" [class.ativa]="etapaAtual === i">
+        <span class="etapa-numero">{{ i + 1 }}</span>
+        {{ etapa }}
+      </div>
+    </nav>
+  </aside>
+
+  <main class="conteudo">
+    <header class="cabecalho">
+      <strong>Formulário de Saúde Mental</strong>
+      <span>{{ ((etapaAtual + 1) / etapas.length) * 100 | number:'1.0-0' }}% concluído</span>
+    </header>
+
+    <section class="area-pergunta">
+      <div class="cartao-pergunta">
+        <div class="progresso-info">
+          <div><span>QUESTÃO {{ etapaAtual + 1 }} DE {{ etapas.length }}</span><span>{{ ((etapaAtual + 1) / etapas.length) * 100 | number:'1.0-0' }}% concluído</span></div>
+          <div class="trilha-progresso"><div [style.width.%]="((etapaAtual + 1) / etapas.length) * 100"></div></div>
+        </div>
+
+        <span class="categoria">{{ etapas[etapaAtual] | uppercase }}</span>
+        <h1>{{ obterPerguntaAtual() }}</h1>
+
+        <div class="opcoes">
+          <label *ngFor="let opcao of obterOpcoesAtuais()" class="opcao" [class.selecionada]="respostas[etapaAtual] === opcao">
+            <input type="radio" name="opcaoResposta" [(ngModel)]="respostas[etapaAtual]" [value]="opcao" />
+            <span>{{ opcao }}</span>
+          </label>
+        </div>
+
+        <footer class="navegacao">
+          <button type="button" class="anterior" (click)="etapaAnterior()" [disabled]="etapaAtual === 0">← Anterior</button>
+          <button type="button" class="proxima" (click)="proximaEtapa()">{{ etapaAtual === etapas.length - 1 ? 'Enviar Respostas →' : 'Próxima →' }}</button>
+        </footer>
+      </div>
+    </section>
+  </main>
+</div>

@@ -46,21 +46,21 @@ export class Login {
       senha: senha
     };
 
+    // Ajustado para enviar 'cpf' tanto para administrador quanto para funcionário
     if (this.perfilSelecionado === 'administrador') {
       dadosLogin.cpf = identificacaoInput;
     } else {
-      dadosLogin.matricula = identificacaoInput;
+      dadosLogin.cpf = identificacaoInput;
     }
 
-    // Chamada  o endpoint do backend
-    this.http.post<any>('http://localhost:8080/api/auth', dadosLogin).subscribe({
+    // Chamada ao endpoint do backend
+    this.http.post<any>('http://localhost:8080/api/auth/login', dadosLogin).subscribe({
       next: (resposta) => {
         // Guarda os dados reais do usuário logado no navegador
         localStorage.setItem('usuarioLogado', JSON.stringify(resposta));
 
-        // Redireciona para as suas respetiva tela: usuário ou administrador 
         void this.router.navigate([
-          this.perfilSelecionado === 'administrador' ? '/administrador' : '/agradecimento',
+          this.perfilSelecionado === 'administrador' ? '/administrador' : '/questionario', 
         ]);
       },
       error: (err) => {

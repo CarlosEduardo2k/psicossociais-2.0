@@ -1,0 +1,273 @@
+/* Estrutura geral */
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+.questionario-page {
+  display: flex;
+  min-height: 100vh;
+  background: #f8fafc;
+}
+
+/* Menu lateral */
+.sidebar {
+  width: 280px;
+  flex-shrink: 0;
+  padding: 20px;
+  border-right: 1px solid #e2e8f0;
+  background: #fff;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+  color: #1e293b;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.brand-symbol {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  place-items: center;
+  border-radius: 8px;
+  background: #2563eb;
+  color: #fff;
+  font-weight: 700;
+}
+
+.sidebar-title {
+  display: block;
+  margin-bottom: 15px;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.etapas {
+  display: grid;
+  gap: 8px;
+}
+
+.etapa {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.etapa.ativa {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.etapa-numero {
+  display: grid;
+  width: 24px;
+  height: 24px;
+  place-items: center;
+  border-radius: 50%;
+  background: #e2e8f0;
+  color: #64748b;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.etapa.ativa .etapa-numero {
+  background: #2563eb;
+  color: #fff;
+}
+
+/* Conteúdo principal */
+.conteudo {
+  display: flex;
+  min-width: 0;
+  flex: 1;
+  flex-direction: column;
+}
+
+.cabecalho {
+  display: flex;
+  justify-content: space-between;
+  padding: 15px 40px;
+  border-bottom: 1px solid #e2e8f0;
+  background: #fff;
+  color: #1e293b;
+}
+
+.cabecalho span,
+.progresso-info span:last-child {
+  color: #2563eb;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.area-pergunta {
+  display: flex;
+  flex: 1;
+  justify-content: center;
+  padding: 40px;
+}
+
+.cartao-pergunta {
+  width: 100%;
+  max-width: 750px;
+  align-self: flex-start;
+  padding: 35px;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 5%);
+}
+
+/* Progresso */
+.progresso-info {
+  margin-bottom: 25px;
+}
+
+.progresso-info > div:first-child {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  color: #475569;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.trilha-progresso {
+  height: 6px;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #e2e8f0;
+}
+
+.trilha-progresso div {
+  height: 100%;
+  border-radius: inherit;
+  background: #2563eb;
+  transition: width 0.3s ease;
+}
+
+.categoria {
+  display: inline-block;
+  margin-bottom: 15px;
+  padding: 4px 10px;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #2563eb;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.cartao-pergunta h1 {
+  margin: 0 0 25px;
+  color: #1e293b;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Alternativas */
+.opcoes {
+  display: grid;
+  gap: 12px;
+}
+
+.opcao {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 16px 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  color: #334155;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.opcao.selecionada {
+  border-color: #2563eb;
+  background: #eff6ff;
+}
+
+.opcao input {
+  width: 18px;
+  height: 18px;
+  accent-color: #2563eb;
+}
+
+/* Navegação */
+.navegacao {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #f1f5f9;
+}
+
+.navegacao button {
+  padding: 10px 20px;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.anterior {
+  background: #f1f5f9;
+  color: #64748b;
+}
+
+.anterior:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.proxima {
+  padding-inline: 24px !important;
+  background: #2563eb;
+  box-shadow: 0 2px 4px rgb(37 99 235 / 20%);
+  color: #fff;
+}
+
+/* Responsividade */
+@media (max-width: 760px) {
+  .questionario-page {
+    display: block;
+  }
+
+  .sidebar {
+    width: auto;
+    border-right: 0;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .etapas {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .cabecalho {
+    padding: 15px 20px;
+  }
+
+  .area-pergunta {
+    padding: 20px;
+  }
+
+  .cartao-pergunta {
+    padding: 24px;
+  }
+}

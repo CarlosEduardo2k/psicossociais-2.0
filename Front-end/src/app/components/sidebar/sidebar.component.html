@@ -1,44 +1,25 @@
-<aside class="sidebar">
-  <div class="brand">
-    <div class="brand-icon">
-      <i class="bi bi-person-fill"></i>
-    </div>
-    <span class="brand-name">SaudeMental NR01</span>
-  </div>
-
-  <div class="menu-section">
+<div class="menu-section">
     <span class="menu-title">ADMINISTRAÇÃO</span>
     <nav class="nav-menu">
-      <a href="#" class="nav-item active">
+      <a routerLink="/admin/visao-geral" routerLinkActive="active" class="nav-item">
         <i class="bi bi-grid-fill"></i>
         <span>Visão Geral</span>
       </a>
-      <a href="#" class="nav-item">
+      <a routerLink="/admin/respostas-individuais" routerLinkActive="active" class="nav-item">
         <i class="bi bi-person"></i>
         <span>Respostas Individuais</span>
       </a>
-      <a href="#" class="nav-item">
+      <a routerLink="/admin/analise-setor" routerLinkActive="active" class="nav-item">
         <i class="bi bi-bar-chart"></i>
         <span>Análise por Setor</span>
       </a>
-      <a href="#" class="nav-item">
+      <a routerLink="/admin/relatorios" routerLinkActive="active" class="nav-item">
         <i class="bi bi-file-earmark-text"></i>
         <span>Relatórios</span>
       </a>
+      <a routerLink="/admin/cadastrar-questionario" routerLinkActive="active" class="nav-item">
+        <i class="bi bi-clipboard-plus"></i>
+        <span>Cadastrar questionário</span>
+      </a>
     </nav>
   </div>
-
-  <div class="sidebar-footer">
-    <div class="user-profile">
-      <div class="avatar">{{ iniciaisAvatar }}</div>
-      <div class="user-info">
-        <span class="nome">{{ nomeAdmin }}</span>
-        <span class="email">{{ emailAdmin }}</span>
-      </div>
-    </div>
-    <button class="btn-logout" (click)="onLogout()">
-      <i class="bi bi-box-arrow-left"></i>
-      <span>Sair</span>
-    </button>
-  </div>
-</aside>
