@@ -38,6 +38,7 @@ public class AdministradorService {
 
         String senhaCriptografada = passwordEncoder.encode(dadosCadastro.senha());
         novoAdministrador.setSenha(senhaCriptografada);
+
         // O cadastro comum sempre cria um ADMINISTRADOR.
         novoAdministrador.setPerfil(PerfilAdministrador.ADMINISTRADOR);
         Administrador administradorSalvo = administradorRepository.save(novoAdministrador);
@@ -59,7 +60,6 @@ public class AdministradorService {
         Administrador administradorSalvo = administradorRepository.save(administrador);
         return converterParaResponseDTO(administradorSalvo);
     }
-
 
     //métodos privados da classe
     private Administrador buscarAdministradorPorId(Integer id) {
