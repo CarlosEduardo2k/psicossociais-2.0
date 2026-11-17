@@ -16,8 +16,8 @@ public class QuestionarioController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Questionario> listartodos(){
+    @GetMapping("{id}")
+    public List<Questionario> listartodos(@PathVariable Integer id){
         return service.listarTodos();
     }
 

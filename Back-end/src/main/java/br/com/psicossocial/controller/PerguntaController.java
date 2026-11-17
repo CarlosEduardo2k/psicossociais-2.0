@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/blocos/{blocoId}/perguntas")
+@RequestMapping("/pergunta")
 @CrossOrigin(origins = "http://localhost:4200")
 public class PerguntaController {
 
@@ -19,11 +19,8 @@ public class PerguntaController {
     }
 
     @PostMapping
-    public Pergunta cadastrar(
-            @PathVariable Integer blocoId,
-            @RequestBody Pergunta pergunta) {
-
-        return service.cadastrarPergunta(blocoId, pergunta);
+    public Pergunta cadastrar(@RequestBody Pergunta pergunta){
+        return service.cadastrarPergunta(pergunta);
     }
 
     @GetMapping

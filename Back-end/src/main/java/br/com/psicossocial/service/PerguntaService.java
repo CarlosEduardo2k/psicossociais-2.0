@@ -21,11 +21,10 @@ public class PerguntaService {
         this.blocoRepository = blocoRepository;
     }
 
-    public Pergunta cadastrarPergunta(Integer blocoId, Pergunta pergunta) {
+    public Pergunta cadastrarPergunta(Pergunta pergunta){
+        Integer blocoId = pergunta.getBloco().getId();
 
-        Bloco bloco = blocoRepository.findById(blocoId)
-                .orElseThrow(() ->
-                        new RuntimeException("Bloco não encontrado"));
+        Bloco bloco = blocoRepository.findById(blocoId).orElseThrow(() -> new RuntimeException("Bloco não encontrado"));
 
         pergunta.setBloco(bloco);
 
