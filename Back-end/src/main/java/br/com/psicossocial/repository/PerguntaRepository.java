@@ -14,4 +14,5 @@ public interface PerguntaRepository extends JpaRepository<Pergunta, Integer> {
     boolean existsByOrdemAndBlocoId(Integer ordem, Integer blocoId);
 
     List<Pergunta> findByBlocoId(Integer blocoId);
+    List<Pergunta> findByBlocoQuestionarioId(Integer questionarioId);
 }
