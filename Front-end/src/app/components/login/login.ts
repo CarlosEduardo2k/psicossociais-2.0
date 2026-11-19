@@ -26,37 +26,24 @@ export class Login {
     }
 
     const nome = formulario.querySelector<HTMLInputElement>('#nome')?.value.trim();
-    const identificacao = formulario.querySelector<HTMLInputElement>(
-      this.perfilSelecionado === 'administrador' ? '#cpf' : '#matricula'
-    )?.value.trim();
+    const cpf = formulario.querySelector<HTMLInputElement>('#cpf')?.value.trim();
     const senha = formulario.querySelector<HTMLInputElement>('#senha')?.value.trim();
 
-    if (!nome || !identificacao || !senha) {
+    if (!nome || !cpf || !senha) {
       alert('Preencha todos os campos antes de continuar.');
       return;
     }
 
-    // Monta o objeto
-    const identificacaoInput = formulario.querySelector<HTMLInputElement>(
-      this.perfilSelecionado === 'administrador' ? '#cpf' : '#matricula'
-    )?.value.trim();
-
+    // Monta o objeto enviando o CPF para os dois perfis
     const dadosLogin: any = {
       nome: nome,
+      cpf: cpf,
       senha: senha
     };
 
-    // Ajustado para enviar 'cpf' tanto para administrador quanto para funcionário
-    if (this.perfilSelecionado === 'administrador') {
-      dadosLogin.cpf = identificacaoInput;
-    } else {
-      dadosLogin.cpf = identificacaoInput;
-    }
-
-    // Chamada ao endpoint do backend
     this.http.post<any>('http://localhost:8080/api/auth/login', dadosLogin).subscribe({
       next: (resposta) => {
-        // Guarda os dados reais do usuário logado no navegador
+        // Guarda os dados do usuário logado no navegador para
         localStorage.setItem('usuarioLogado', JSON.stringify(resposta));
 
         void this.router.navigate([

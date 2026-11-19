@@ -1,20 +1,23 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [CommonModule],
   templateUrl: './sidebar.component.html',
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
-  @Input() nomeAdmin: string = 'Administrador';
-  @Input() emailAdmin: string = 'admin@empresa.com';
-  
+  @Input() abaAtiva: string = '';
+  @Input() nomeAdmin: string = '';
+  @Input() emailAdmin: string = '';
+  @Output() mudarAba = new EventEmitter<string>();
   @Output() logoutEvent = new EventEmitter<void>();
-  @Output() mudarAbaEvent = new EventEmitter<string>();
+
+  selecionarAba(aba: string): void {
+    this.mudarAba.emit(aba);
+  }
 
   // aqui ele pega as iniciais do usuário e cria o avatar
   get iniciaisAvatar(): string {
@@ -24,10 +27,6 @@ export class SidebarComponent {
       return (partes[0][0] + partes[1][0]).toUpperCase();
     }
     return this.nomeAdmin.substring(0, 2).toUpperCase();
-  }
-
-  selecionarAba(aba: string): void {
-    this.mudarAbaEvent.emit(aba);
   }
 
   onLogout(): void {

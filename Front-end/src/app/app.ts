@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { Login } from './login/login';
-import { Agradecimento } from './agradecimento/agradecimento';
-import { Administrador } from './administrador/administrador';
+import { Login } from './components/login/login';
+import { Agradecimento } from './components/agradecimento/agradecimento';
+import { Administrador } from './components/administrador/administrador';
 
 @Component({
   selector: 'app-root',

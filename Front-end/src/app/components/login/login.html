@@ -56,11 +56,22 @@
             autocomplete="username"
             placeholder="Ex: 123.456.789-00"
             title="Informe um CPF com 11 dígitos."
+            maxlength="14"
             required
           />
         } @else {
-          <label for="matricula">MATRÍCULA</label>
-          <input id="matricula" name="matricula" type="text" placeholder="Ex: 00123456" required />
+          <label for="cpf">CPF</label>
+          <input
+            id="cpf"
+            name="cpf"
+            type="text"
+            inputmode="numeric"
+            autocomplete="username"
+            placeholder="Ex: 123.456.789-00"
+            title="Informe um CPF com 11 dígitos."
+            maxlength="14"
+            required
+          />
         }
 
         <label for="senha">SENHA</label>

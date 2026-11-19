@@ -1,0 +1,92 @@
+<div class="dashboard-layout">
+  <!-- Componente sidebar com o evento de mudança de aba adicionado -->
+  <app-sidebar 
+    [nomeAdmin]="nomeAdmin" 
+    [emailAdmin]="emailAdmin"
+    (logoutEvent)="handleLogout()"
+    [abaAtiva]="abaAtiva" 
+    (mudarAba)="selecionarAba($event)">
+  </app-sidebar>
+
+  <!-- Área Central -->
+  <main class="main-content">
+    @if (abaAtiva === 'visao-geral') {
+      @if (isLoading) {
+        <div class="loading-state">
+          <p>Carregando dados do painel...</p>
+        </div>
+      } @else if (dashboardData) {
+        <header class="header">
+          <h1>Visão Geral</h1>
+          <p class="subtitle">Monitoramento dos riscos psicossociais — {{ dashboardData?.mesReferencia }}</p>
+        </header>
+
+        <!-- Grade KPIs -->
+        <section class="cards-grid">
+          <app-metric-card 
+            label="TOTAL DE RESPOSTAS" 
+            [value]="dashboardData?.totalRespostas" 
+            subtext="Último mês">
+          </app-metric-card>
+
+          <app-metric-card 
+            label="RISCO CRÍTICO" 
+            [value]="dashboardData?.riscoCritico" 
+            subtext="Atenção imediata" 
+            variant="danger">
+          </app-metric-card>
+
+          <app-metric-card 
+            label="RISCO ALTO" 
+            [value]="dashboardData?.riscoAlto" 
+            subtext="Acompanhamento" 
+            variant="warning">
+          </app-metric-card>
+
+          <app-metric-card 
+            label="MÉDIA DE ESTRESSE" 
+            [value]="dashboardData?.mediaEstresse" 
+            subtext="Escala 1–5" 
+            variant="primary">
+          </app-metric-card>
+        </section>
+
+        <!-- Grade de Gráficos -->
+        <section class="charts-grid">
+          <app-sector-chart 
+            [setores]="dashboardData?.nivelRiscoPorSetor?.setores" 
+            [valores]="dashboardData?.nivelRiscoPorSetor?.valores">
+          </app-sector-chart>
+
+          <app-trend-chart 
+            [meses]="dashboardData?.tendenciaUltimosMeses?.meses" 
+            [estresse]="dashboardData?.tendenciaUltimosMeses?.estresse"
+            [exaustao]="dashboardData?.tendenciaUltimosMeses?.exaustao"
+            [qualidadeSono]="dashboardData?.tendenciaUltimosMeses?.qualidadeSono">
+          </app-trend-chart>
+        </section>
+      }
+    }
+    
+    @if (abaAtiva === 'cadastrar-questionario') {
+      <div class="cadastrar-content">
+        <app-cadastrar-questionario></app-cadastrar-questionario>
+      </div>
+    }
+
+    @if (abaAtiva === 'respostas-individuais') {
+      <app-respostas-individuais></app-respostas-individuais>
+    }
+
+    @if (abaAtiva === 'analise-por-setor') {
+      <app-analise-por-setor></app-analise-por-setor>
+    }
+
+    @if (abaAtiva === 'relatorios') {
+      <header class="header">
+        <h1>Relatórios</h1>
+        <p class="subtitle">Emissão de documentos e consolidados</p>
+      </header>
+    }
+  </main>
+</div>

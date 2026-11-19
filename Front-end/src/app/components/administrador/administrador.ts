@@ -1,12 +1,15 @@
 import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { SidebarComponent } from '../components/sidebar/sidebar.component';
-import { MetricCardComponent } from '../components/metric-card/metric-card.component';
-import { SectorChartComponent } from '../components/sector-chart/sector-chart.component';
-import { TrendChartComponent } from '../components/trend-chart/trend-chart.component';
-import { DashboardData } from '../models/dashboard.model';
-import { AdministradorService } from '../service/administrador.service';
+import { SidebarComponent } from './sidebar/sidebar.component';
+import { MetricCardComponent } from './metric-card/metric-card.component';
+import { SectorChartComponent } from './sector-chart/sector-chart.component';
+import { TrendChartComponent } from './trend-chart/trend-chart.component';
+import { DashboardData } from '@models/dashboard.model';
+import { AdministradorService } from '@service/administrador.service';
+import { CadastrarQuestionario } from './cadastrar-questionario/cadastrar-questionario';
+import { RespostasIndividuaisComponent } from './respostas-individuais/respostas-individuais.component';
+import { AnalisePorSetorComponent } from './analise-por-setor/analise-por-setor.component';
 
 @Component({
   selector: 'app-administrador',
@@ -16,13 +19,15 @@ import { AdministradorService } from '../service/administrador.service';
     SidebarComponent,
     MetricCardComponent,
     SectorChartComponent,
-    TrendChartComponent
+    TrendChartComponent,
+    CadastrarQuestionario,
+    RespostasIndividuaisComponent,
+    AnalisePorSetorComponent
   ],
   templateUrl: './administrador.html',
-  styleUrls: ['./administrador.css']
+  styleUrls: ['./administrador.css'] // Mantido conforme o teu ficheiro original
 })
 export class Administrador implements OnInit {
-  // aqui ele ver qual usuário está logado
   private administradorService = inject(AdministradorService);
   private router = inject(Router);
   private cdr = inject(ChangeDetectorRef);
@@ -33,7 +38,7 @@ export class Administrador implements OnInit {
   nomeAdmin: string = 'Administrador';
   emailAdmin: string = 'admin@empresa.com';
 
-  // Controlo da aba ativa no painel (Visão Geral, Respostas, Setor, Relatórios)
+  // Controlo da aba ativa no painel (Visão Geral, Respostas, Setor, Relatórios, Cadastrar Questionário)
   abaAtiva: string = 'visao-geral';
 
   ngOnInit(): void {
@@ -41,10 +46,10 @@ export class Administrador implements OnInit {
     
     if (dadosUsuario) {
       const usuario = JSON.parse(dadosUsuario);
-      const idAdministrador = usuario.id || 5; 
+      const idAdministrador = usuario.id;
 
-      this.nomeAdmin = usuario.nome || 'Administrador';
-      this.emailAdmin = usuario.email || 'admin@empresa.com';
+      this.nomeAdmin = usuario.nome;
+      this.emailAdmin = usuario.email;
 
       this.administradorService.buscarPorId(idAdministrador).subscribe({
         next: (data: any) => {
@@ -54,7 +59,7 @@ export class Administrador implements OnInit {
         },
         error: (err: any) => {
           console.error('Erro ao conectar com o backend Java:', err);
-          this.isLoading = false;
+          this.isLoading = false; 
           this.cdr.detectChanges();
         }
       });
@@ -63,8 +68,13 @@ export class Administrador implements OnInit {
     }
   }
 
+  // Método que altera a aba ativa com base no evento emitido pela sidebar
+  selecionarAba(novaAba: string): void {
+    this.abaAtiva = novaAba;
+  }
+
   handleLogout(): void {
     localStorage.removeItem('usuarioLogado');
-    void this.router.navigate(['/login']);
+    void this.router.navigate(['']);
   }
 }
