@@ -1,5 +1,6 @@
 package br.com.psicossocial.entity;
 
+import br.com.psicossocial.enums.StatusParticipacao;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,8 +9,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tb_participacao", uniqueConstraints = {@UniqueConstraint(
-        name = "uk_participante_aplicacao",
-        columnNames = {"participante_id", "aplicacao_id"})})
+        name = "uk_participante_aplicacao", columnNames = {"participante_id", "aplicacao_id"})})
 @Getter
 @Setter
 public class Participacao {
@@ -19,7 +19,7 @@ public class Participacao {
     private Integer id;
 
     @Column(nullable = false)
-    private LocalDateTime dataInicio;S
+    private LocalDateTime dataInicio;
 
     private LocalDateTime dataTermino;
 

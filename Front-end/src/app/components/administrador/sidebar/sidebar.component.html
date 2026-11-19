@@ -1,0 +1,57 @@
+<aside class="sidebar">
+  <div class="brand">
+    <div class="brand-icon">
+      <i class="bi bi-person-fill"></i>
+    </div>
+    <span class="brand-name">SaudeMental NR01</span>
+  </div>
+
+  <div class="menu-section">
+    <span class="menu-title">ADMINISTRAÇÃO</span>
+    <nav class="nav-menu">
+      <!-- Visão Geral -->
+        <a class="nav-item" [class.active]="abaAtiva === 'visao-geral'" (click)="selecionarAba('visao-geral')">
+          <i class="bi bi-grid-fill"></i>
+          <span>Visão Geral</span>
+        </a>
+
+      <!-- Respostas Individuais -->
+      <a class="nav-item" [class.active]="abaAtiva === 'respostas-individuais'" (click)="selecionarAba('respostas-individuais')">
+        <i class="fas fa-users"></i>
+        <span>Respostas Individuais</span>
+      </a>
+
+        <!-- Análise por Setor -->
+        <a class="nav-item" [class.active]="abaAtiva === 'analise-por-setor'" (click)="selecionarAba('analise-por-setor')">
+          <i class="bi bi-bar-chart"></i>
+          <span>Análise por Setor</span>
+        </a>
+
+        <!-- Relatórios
+          <a class="nav-item" [class.active]="abaAtiva === 'relatorios'" (click)="selecionarAba('relatorios')">
+            <i class="bi bi-file-earmark-text"></i>
+          <span>Relatórios</span>
+        </a>
+
+         Cadastrar Questionário 
+        <a class="nav-item" (click)="selecionarAba('cadastrar-questionario')">
+          <i class="fa-regular fa-square-plus"></i>
+          <span>Cadastrar Questionário</span>
+        </a> -->
+    </nav>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="user-profile">
+      <div class="avatar">{{ iniciaisAvatar }}</div>
+      <div class="user-info">
+        <span class="nome">{{ nomeAdmin }}</span>
+        <span class="email">{{ emailAdmin }}</span>
+      </div>
+    </div>
+    <button class="btn-logout" (click)="onLogout()">
+      <i class="bi bi-box-arrow-left"></i>
+      <span>Sair</span>
+    </button>
+  </div>
+</aside>

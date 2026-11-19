@@ -1,4 +1,4 @@
-package br.com.psicossocial.entity;
+package br.com.psicossocial.enums;
 
 public enum StatusParticipacao {
     EM_ANDAMENTO,

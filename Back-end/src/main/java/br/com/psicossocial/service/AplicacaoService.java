@@ -6,7 +6,7 @@ import br.com.psicossocial.dto.AplicacaoResponseDTO;
 import br.com.psicossocial.entity.Aplicacao;
 import br.com.psicossocial.entity.Empresa;
 import br.com.psicossocial.entity.Questionario;
-import br.com.psicossocial.entity.StatusAplicacao;
+import br.com.psicossocial.enums.StatusAplicacao;
 import br.com.psicossocial.exception.RegraDeNegocioException;
 import br.com.psicossocial.repository.AplicacaoRepository;
 import br.com.psicossocial.repository.EmpresaRepository;

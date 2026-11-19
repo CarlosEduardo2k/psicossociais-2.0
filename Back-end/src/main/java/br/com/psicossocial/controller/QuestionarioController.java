@@ -8,6 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/questionario")
+@CrossOrigin(origins = "http://localhost:4200")
 public class QuestionarioController {
     private final QuestionarioService service;
 
@@ -15,8 +16,8 @@ public class QuestionarioController {
         this.service = service;
     }
 
-    @GetMapping
-    public List<Questionario> listartodos(){
+    @GetMapping("{id}")
+    public List<Questionario> listartodos(@PathVariable Integer id){
         return service.listarTodos();
     }
 

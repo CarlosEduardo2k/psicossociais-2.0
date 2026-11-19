@@ -11,25 +11,19 @@ import org.springframework.web.bind.annotation.*;
 
 /**
  * Expõe os endpoints HTTP responsáveis pelo ciclo de vida dos administradores.
- * <p>
  * A classe recebe as requisições, valida os dados de entrada e delega as regras
  * de negócio. Os DTOs evitam que as entidades do domínio sejam expostas diretamente pela API.
- * </p>
- */
+  */
 @RestController
 @RequestMapping("/administradores")
+@CrossOrigin(origins = "http://localhost:4200")
+
 public class AdministradorController {
 
     private final AdministradorService administradorService;
 
     public AdministradorController(AdministradorService administradorService) {
         this.administradorService = administradorService;
-    }
-
-    @PostMapping
-    public ResponseEntity<AdministradorResponseDTO> cadastrar(@RequestBody @Valid AdministradorCadastroDTO dadosCadastro){
-        AdministradorResponseDTO administrador = administradorService.cadastrar(dadosCadastro);
-        return ResponseEntity.status(HttpStatus.CREATED).body(administrador);
     }
 
     @GetMapping("/{id}")

@@ -19,6 +19,9 @@ public class Pergunta {
     @Column(nullable = false)
     private Integer ordem;
 
+    @Column(nullable = false)
+    private Boolean positivo;
+
     @ManyToOne
     @JoinColumn(name="bloco_id",nullable = false)
     private Bloco bloco;

@@ -1,6 +1,6 @@
 package br.com.psicossocial.dto;
 
-import br.com.psicossocial.entity.StatusAplicacao;
+import br.com.psicossocial.enums.StatusAplicacao;
 import java.time.LocalDateTime;
 
 public record AplicacaoResponseDTO(

@@ -10,9 +10,17 @@ import br.com.psicossocial.dto.RespostaResponseDTO;
 import br.com.psicossocial.entity.Aplicacao;
 import br.com.psicossocial.entity.Participacao;
 import br.com.psicossocial.entity.Participante;
+<<<<<<< HEAD
 import br.com.psicossocial.entity.Pergunta;
 import br.com.psicossocial.entity.Resposta;
 import br.com.psicossocial.entity.StatusParticipacao;
+=======
+import br.com.psicossocial.entity.Resposta;
+import br.com.psicossocial.entity.Pergunta;
+import br.com.psicossocial.enums.StatusParticipacao;
+import br.com.psicossocial.repository.RespostaRepository;
+import br.com.psicossocial.repository.PerguntaRepository;
+>>>>>>> 6484002a15d8307adf22d091be49ae23c4cdbd64
 
 // Repositórios responsáveis pelo acesso ao banco.
 import br.com.psicossocial.repository.AplicacaoRepository;
@@ -127,7 +135,11 @@ public class ParticipacaoService {
      * Caso contrário, cria uma nova resposta.
      */
     @Transactional
+<<<<<<< HEAD
     public RespostaResponseDTO salvarResposta(
+=======
+    public Resposta salvarResposta(
+>>>>>>> 6484002a15d8307adf22d091be49ae23c4cdbd64
             Integer participacaoId,
             RespostaCadastroDTO dados) {
 
