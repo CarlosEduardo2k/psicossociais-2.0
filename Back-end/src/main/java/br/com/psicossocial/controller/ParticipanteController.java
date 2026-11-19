@@ -1,8 +1,13 @@
 
 package br.com.psicossocial.controller;
 
-import br.com.psicossocial.entity.Participante;
+import br.com.psicossocial.dto.ParticipanteCadastroDTO;
+import br.com.psicossocial.dto.ParticipanteEdicaoDTO;
+import br.com.psicossocial.dto.ParticipanteResponseDTO;
 import br.com.psicossocial.service.ParticipanteService;
+
+import jakarta.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,18 +20,17 @@ public class ParticipanteController {
 
     private final ParticipanteService participanteService;
 
-    // Injeta o serviço responsável pelas operações dos participantes.
     public ParticipanteController(ParticipanteService participanteService) {
         this.participanteService = participanteService;
     }
 
     // Cadastra um novo participante.
     @PostMapping
-    public ResponseEntity<Participante> cadastrar(
-            @RequestBody Participante participante) {
+    public ResponseEntity<ParticipanteResponseDTO> cadastrar(
+            @RequestBody @Valid ParticipanteCadastroDTO dados) {
 
-        Participante novoParticipante =
-                participanteService.cadastrar(participante);
+        ParticipanteResponseDTO novoParticipante =
+                participanteService.cadastrar(dados);
 
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(novoParticipante);
@@ -34,14 +38,14 @@ public class ParticipanteController {
 
     // Lista todos os participantes.
     @GetMapping
-    public ResponseEntity<List<Participante>> listarTodos() {
+    public ResponseEntity<List<ParticipanteResponseDTO>> listarTodos() {
 
         return ResponseEntity.ok(participanteService.listarTodos());
     }
 
     // Busca um participante pelo ID.
     @GetMapping("/{id}")
-    public ResponseEntity<Participante> buscarPorId(
+    public ResponseEntity<ParticipanteResponseDTO> buscarPorId(
             @PathVariable Integer id) {
 
         return ResponseEntity.ok(participanteService.buscarPorId(id));
@@ -49,12 +53,12 @@ public class ParticipanteController {
 
     // Atualiza os dados de um participante.
     @PutMapping("/{id}")
-    public ResponseEntity<Participante> atualizar(
+    public ResponseEntity<ParticipanteResponseDTO> atualizar(
             @PathVariable Integer id,
-            @RequestBody Participante participante) {
+            @RequestBody @Valid ParticipanteEdicaoDTO dados) {
 
-        Participante atualizado =
-                participanteService.atualizar(id, participante);
+        ParticipanteResponseDTO atualizado =
+                participanteService.atualizar(id, dados);
 
         return ResponseEntity.ok(atualizado);
     }

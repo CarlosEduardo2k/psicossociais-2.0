@@ -1,7 +1,7 @@
 
 package br.com.psicossocial.dto;
 
-import br.com.psicossocial.entity.StatusParticipacao;
+import br.com.psicossocial.enums.StatusParticipacao;
 import java.time.LocalDateTime;
 
 public record ParticipacaoResponseDTO(

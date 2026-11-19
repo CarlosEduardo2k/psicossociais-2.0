@@ -5,7 +5,7 @@ package br.com.psicossocial.service;
 import br.com.psicossocial.entity.Resultado;
 import br.com.psicossocial.entity.Participacao;
 import br.com.psicossocial.entity.Resposta;
-import br.com.psicossocial.entity.StatusParticipacao;
+import br.com.psicossocial.enums.StatusParticipacao;
 
 // Importa o DTO de resposta.
 import br.com.psicossocial.dto.ResultadoResponseDTO;
