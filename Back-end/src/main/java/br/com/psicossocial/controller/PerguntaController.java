@@ -23,7 +23,7 @@ public class PerguntaController {
         return service.cadastrarPergunta(pergunta);
     }
 
-    @GetMapping
+    @GetMapping("/{blocoId}")
     public List<Pergunta> listarPorBloco(
             @PathVariable Integer blocoId) {
 

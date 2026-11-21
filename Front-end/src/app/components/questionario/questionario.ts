@@ -1,8 +1,15 @@
-import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { forkJoin } from 'rxjs';
+import { QuestionarioService } from '@service/questionario.service';
+import { Bloco, Pergunta } from '@models/questionario.models';
+
+export interface OpcaoEscala {
+  label: string;
+  valor: number;
+}
 
 @Component({
   selector: 'app-questionario',
@@ -12,81 +19,206 @@ import { Router } from '@angular/router';
   styleUrls: ['./questionario.css'],
 })
 export class Questionario implements OnInit {
-  private readonly http = inject(HttpClient);
+  @Input() nomeAdmin: string = 'Funcionario teste';
+  @Input() emailAdmin: string = 'funcionario@teste.com';
+  @Output() logoutEvent = new EventEmitter<void>();
+  private readonly questionarioService = inject(QuestionarioService);
   private readonly router = inject(Router);
   private readonly cdRef = inject(ChangeDetectorRef);
 
-  etapas: string[] = [
-    'Estresse Ocupacional',
-    'Qualidade do Sono',
-    'Exaustão Emocional',
-    'Capacidade de Concentração',
-    'Sintomas Físicos',
-  ];
+  blocos: Bloco[] = [];
+  blocoAtualIndex = 0;
 
-  etapaAtual = 0;
-  respostas: { [key: number]: string } = {};
+  perguntasDoBloco: Pergunta[] = [];
+  perguntaAtualIndex = 0;
 
-  dadosQuestionario: { pergunta: string; opcoes: string[] }[] = [
-    {
-      pergunta: 'Com que frequência você se sente sobrecarregado(a) pelas demandas do seu trabalho?',
-      opcoes: ['Nunca ou raramente', 'Algumas vezes por mês', 'Algumas vezes por semana', 'Quase todos os dias', 'Todos os dias, o tempo todo'],
-    },
-    {
-      pergunta: 'Como você avalia a qualidade do seu sono nas últimas duas semanas?',
-      opcoes: ['Excelente — durmo bem e acordo descansado(a)', 'Boa — pequenas dificuldades ocasionais', 'Regular — tenho dificuldades frequentes', 'Ruim — raramente durmo bem', 'Péssima — insônia ou sono muito interrompido'],
-    },
-    {
-      pergunta: 'Ao final do expediente, com que frequência você se sente emocionalmente esgotado(a)?',
-      opcoes: ['Nunca — geralmente termino o dia com energia', 'Raramente — apenas em dias mais intensos', 'Às vezes — cerca de metade dos dias', 'Frequentemente — na maioria dos dias', 'Sempre — sinto-me esgotado(a) todos os dias'],
-    },
-    {
-      pergunta: 'Como você avalia sua capacidade de se concentrar nas tarefas do trabalho ultimamente?',
-      opcoes: ['Muito boa — foco pleno sem dificuldades', 'Boa — pequenas distrações pontuais', 'Regular — tenho dificuldade com frequência', 'Ruim — dificuldade significativa na maioria das vezes', 'Muito ruim — não consigo me concentrar'],
-    },
-    {
-      pergunta: 'Nas últimas duas semanas, com que frequência você teve sintomas físicos relacionados ao estresse (dores de cabeça, tensão muscular, dores no peito, etc.)?',
-      opcoes: ['Nenhum sintoma', 'Raramente — 1 a 2 vezes', 'Às vezes — algumas vezes por semana', 'Frequentemente — quase todos os dias', 'Sempre — diariamente e com intensidade'],
-    },
+  perguntasPorBlocoId: Record<number, Pergunta[]> = {};
+
+  respostasPorPergunta: Record<number, number> = {};
+
+  opcoesEscala: OpcaoEscala[] = [
+    { label: 'Nunca ou raramente', valor: 1 },
+    { label: 'Algumas vezes por mês', valor: 2 },
+    { label: 'Algumas vezes por semana', valor: 3 },
+    { label: 'Quase todos os dias', valor: 4 },
+    { label: 'Todos os dias, o tempo todo', valor: 5 },
   ];
 
   ngOnInit(): void {
-    this.http.get<any[]>('http://localhost:8080/questionario').subscribe({
-      next: (dados) => {
-        console.log('Questionário carregado:', dados);
+    this.carregarBlocos();
+  }
+
+  carregarBlocos(): void {
+    this.questionarioService.listarBlocos().subscribe({
+      next: (lista) => {
+        this.blocos = [...lista].sort((a, b) => a.ordem - b.ordem);
+        this.blocoAtualIndex = 0;
+
+        if (this.blocos.length > 0) {
+          this.carregarTodasAsPerguntas(this.blocos);
+        }
         this.cdRef.detectChanges();
       },
-      error: (err) => console.error('Erro ao buscar questionário:', err),
+      error: (err) => console.error('Erro ao carregar blocos:', err),
     });
   }
 
-  obterPerguntaAtual(): string {
-    return this.dadosQuestionario[this.etapaAtual]?.pergunta || '';
+  private carregarTodasAsPerguntas(blocos: Bloco[]): void {
+    const requisicoes = blocos.map((bloco) =>
+      this.questionarioService.listarPerguntasPorBloco(bloco.id)
+    );
+
+    forkJoin(requisicoes).subscribe({
+      next: (listasPorBloco) => {
+        blocos.forEach((bloco, idx) => {
+          this.perguntasPorBlocoId[bloco.id] = [...(listasPorBloco[idx] || [])].sort(
+            (a, b) => a.ordem - b.ordem
+          );
+        });
+
+        const primeiroBlocoId = blocos[0].id;
+        this.perguntasDoBloco = this.perguntasPorBlocoId[primeiroBlocoId] || [];
+        this.perguntaAtualIndex = 0;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => console.error('Erro ao carregar perguntas dos blocos:', err),
+    });
   }
 
-  obterOpcoesAtuais(): string[] {
-    return this.dadosQuestionario[this.etapaAtual]?.opcoes || [];
+  selecionarBloco(index: number): void {
+    if (index < 0 || index >= this.blocos.length) return;
+    this.blocoAtualIndex = index;
+    this.perguntaAtualIndex = 0;
+    const blocoSelecionado = this.blocos[index];
+
+    if (this.perguntasPorBlocoId[blocoSelecionado.id]) {
+      this.perguntasDoBloco = this.perguntasPorBlocoId[blocoSelecionado.id];
+      this.cdRef.detectChanges();
+    } else {
+      this.carregarPerguntasDoBloco(blocoSelecionado.id);
+    }
+  }
+
+  private carregarPerguntasDoBloco(blocoId: number): void {
+    this.questionarioService.listarPerguntasPorBloco(blocoId).subscribe({
+      next: (lista) => {
+        const ordenadas = [...lista].sort((a, b) => a.ordem - b.ordem);
+        this.perguntasPorBlocoId[blocoId] = ordenadas;
+        this.perguntasDoBloco = ordenadas;
+        this.perguntaAtualIndex = 0;
+        this.cdRef.detectChanges();
+      },
+      error: (err) => console.error('Erro ao carregar perguntas do bloco:', err),
+    });
+  }
+
+  get blocoAtual(): Bloco | undefined {
+    return this.blocos[this.blocoAtualIndex];
+  }
+
+  get perguntaAtual(): Pergunta | undefined {
+    return this.perguntasDoBloco[this.perguntaAtualIndex];
+  }
+
+  get totalPerguntasBloco(): number {
+    return this.perguntasDoBloco.length;
+  }
+
+  get totalPerguntasCarregadas(): number {
+    return Object.values(this.perguntasPorBlocoId).reduce(
+      (acc, lista) => acc + lista.length,
+      0
+    );
+  }
+
+  get totalRespondidas(): number {
+    return Object.keys(this.respostasPorPergunta).length;
+  }
+
+  get percentualRespondidoGeral(): number {
+    if (this.totalPerguntasCarregadas === 0) return 0;
+    return (this.totalRespondidas / this.totalPerguntasCarregadas) * 100;
+  }
+
+  get percentualProgressoBloco(): number {
+    if (this.totalPerguntasBloco === 0) return 0;
+    return ((this.perguntaAtualIndex + 1) / this.totalPerguntasBloco) * 100;
+  }
+
+  get isUltimaPerguntaDoUltimoBloco(): boolean {
+    const ultimoBloco = this.blocoAtualIndex === this.blocos.length - 1;
+    const ultimaPergunta = this.perguntaAtualIndex === this.totalPerguntasBloco - 1;
+    return ultimoBloco && ultimaPergunta;
+  }
+
+  get respostaAtualValor(): number | undefined {
+    const atual = this.perguntaAtual;
+    if (!atual) return undefined;
+    return this.respostasPorPergunta[atual.id];
+  }
+
+  set respostaAtualValor(valor: number | undefined) {
+    const atual = this.perguntaAtual;
+    if (!atual || valor === undefined) return;
+    this.respostasPorPergunta[atual.id] = valor;
   }
 
   proximaEtapa(): void {
-    if (!this.respostas[this.etapaAtual]) {
+    const atual = this.perguntaAtual;
+    if (!atual) return;
+
+    if (this.respostasPorPergunta[atual.id] === undefined) {
       alert('Por favor, selecione uma opção antes de continuar.');
       return;
     }
 
-    if (this.etapaAtual < this.etapas.length - 1) {
-      this.etapaAtual++;
+    // Avança para a próxima pergunta do bloco atual
+    if (this.perguntaAtualIndex < this.totalPerguntasBloco - 1) {
+      this.perguntaAtualIndex++;
       return;
     }
 
-    console.log('Respostas finais do questionário:', this.respostas);
-    alert('Questionário concluído e enviado com sucesso!');
+    // Terminou o bloco atual: vai para o próximo bloco
+    if (this.blocoAtualIndex < this.blocos.length - 1) {
+      this.selecionarBloco(this.blocoAtualIndex + 1);
+      return;
+    }
+
+    // Última pergunta do último bloco
+    console.log('Respostas coletadas (perguntaId -> valor):', this.respostasPorPergunta);
+    alert('Questionário concluído!');
     void this.router.navigate(['/agradecimento']);
   }
 
   etapaAnterior(): void {
-    if (this.etapaAtual > 0) {
-      this.etapaAtual--;
+    if (this.perguntaAtualIndex > 0) {
+      this.perguntaAtualIndex--;
+      return;
     }
+
+    if (this.blocoAtualIndex > 0) {
+      const indiceAnterior = this.blocoAtualIndex - 1;
+      this.blocoAtualIndex = indiceAnterior;
+      const blocoAnterior = this.blocos[indiceAnterior];
+      const listaAnterior = this.perguntasPorBlocoId[blocoAnterior.id] || [];
+      this.perguntasDoBloco = listaAnterior;
+      this.perguntaAtualIndex = Math.max(0, listaAnterior.length - 1);
+      this.cdRef.detectChanges();
+    }
+  }
+
+    // aqui ele pega as iniciais do usuário e cria o avatar
+  get iniciaisAvatar(): string {
+    if (!this.nomeAdmin) return 'AD';
+    const partes = this.nomeAdmin.trim().split(' ');
+    if (partes.length >= 2) {
+      return (partes[0][0] + partes[1][0]).toUpperCase();
+    }
+    return this.nomeAdmin.substring(0, 2).toUpperCase();
+  }
+
+  onLogout(): void {
+    this.logoutEvent.emit();
+    void this.router.navigate(['/']);
   }
 }

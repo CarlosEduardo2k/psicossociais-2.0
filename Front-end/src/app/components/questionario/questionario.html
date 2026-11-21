@@ -1,42 +1,91 @@
 <div class="questionario-page">
   <aside class="sidebar">
-    <div class="brand"><span class="brand-symbol">S</span><span>SaudeMental NR01</span></div>
+    <div class="brand">
+      <div class="brand-icon">
+        <i class="bi bi-person-fill"></i>
+      </div>
+      <span class="brand-name">SaudeMental NR01</span>
+    </div>
     <span class="sidebar-title">AVALIAÇÃO</span>
 
     <nav class="etapas">
-      <div *ngFor="let etapa of etapas; let i = index" class="etapa" [class.ativa]="etapaAtual === i">
+      <div
+        *ngFor="let bloco of blocos; let i = index"
+        class="etapa"
+        [class.ativa]="blocoAtualIndex === i"
+        (click)="selecionarBloco(i)"
+      >
         <span class="etapa-numero">{{ i + 1 }}</span>
-        {{ etapa }}
+        {{ bloco.nome }}
       </div>
     </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-profile">
+        <div class="avatar">{{ iniciaisAvatar }}</div>
+        <div class="user-info">
+          <span class="nome">{{ nomeAdmin }}</span>
+          <span class="email">{{ emailAdmin }}</span>
+        </div>
+      </div>
+      <button class="btn-logout" (click)="onLogout()">
+        <i class="bi bi-box-arrow-left"></i>
+        <span>Sair</span>
+      </button>
+    </div>
   </aside>
 
   <main class="conteudo">
     <header class="cabecalho">
       <strong>Formulário de Saúde Mental</strong>
-      <span>{{ ((etapaAtual + 1) / etapas.length) * 100 | number:'1.0-0' }}% concluído</span>
+      <span>{{ percentualRespondidoGeral | number:'1.0-0' }}% concluído</span>
     </header>
 
     <section class="area-pergunta">
-      <div class="cartao-pergunta">
+      <div class="cartao-pergunta" *ngIf="perguntaAtual as atual">
         <div class="progresso-info">
-          <div><span>QUESTÃO {{ etapaAtual + 1 }} DE {{ etapas.length }}</span><span>{{ ((etapaAtual + 1) / etapas.length) * 100 | number:'1.0-0' }}% concluído</span></div>
-          <div class="trilha-progresso"><div [style.width.%]="((etapaAtual + 1) / etapas.length) * 100"></div></div>
+          <div>
+            <span>QUESTÃO {{ perguntaAtualIndex + 1 }} DE {{ totalPerguntasBloco }}</span>
+            <span>{{ percentualProgressoBloco | number:'1.0-0' }}% concluído</span>
+          </div>
+          <div class="trilha-progresso">
+            <div [style.width.%]="percentualProgressoBloco"></div>
+          </div>
         </div>
 
-        <span class="categoria">{{ etapas[etapaAtual] | uppercase }}</span>
-        <h1>{{ obterPerguntaAtual() }}</h1>
+        <span class="categoria">
+          {{ (atual.categoria?.nome || atual.categoriaNome || blocoAtual?.nome || '') | uppercase }}
+        </span>
+        <h1>{{ atual.texto }}</h1>
 
         <div class="opcoes">
-          <label *ngFor="let opcao of obterOpcoesAtuais()" class="opcao" [class.selecionada]="respostas[etapaAtual] === opcao">
-            <input type="radio" name="opcaoResposta" [(ngModel)]="respostas[etapaAtual]" [value]="opcao" />
-            <span>{{ opcao }}</span>
+          <label
+            *ngFor="let opcao of opcoesEscala"
+            class="opcao"
+            [class.selecionada]="respostaAtualValor === opcao.valor"
+          >
+            <input
+              type="radio"
+              name="opcaoResposta"
+              [(ngModel)]="respostaAtualValor"
+              [value]="opcao.valor"
+            />
+            <span>{{ opcao.label }}</span>
           </label>
         </div>
 
         <footer class="navegacao">
-          <button type="button" class="anterior" (click)="etapaAnterior()" [disabled]="etapaAtual === 0">← Anterior</button>
-          <button type="button" class="proxima" (click)="proximaEtapa()">{{ etapaAtual === etapas.length - 1 ? 'Enviar Respostas →' : 'Próxima →' }}</button>
+          <button
+            type="button"
+            class="anterior"
+            (click)="etapaAnterior()"
+            [disabled]="blocoAtualIndex === 0 && perguntaAtualIndex === 0"
+          >
+            ← Anterior
+          </button>
+          <button type="button" class="proxima" (click)="proximaEtapa()">
+            {{ isUltimaPerguntaDoUltimoBloco ? 'Enviar Respostas →' : 'Próxima' }} <i class="fa-solid fa-arrow-right-long"></i>
+          </button>
         </footer>
       </div>
     </section>

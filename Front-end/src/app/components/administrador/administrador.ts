@@ -78,3 +78,5 @@ export class Administrador implements OnInit {
     void this.router.navigate(['']);
   }
 }
+
+//$2a$10$nRFMqTVY2f7Ouy8G6iXS4utdcDcIqNq0b8o/PACSN5tccO8goGWie
