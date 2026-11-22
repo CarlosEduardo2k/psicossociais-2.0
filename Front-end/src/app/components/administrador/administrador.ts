@@ -25,7 +25,7 @@ import { AnalisePorSetorComponent } from './analise-por-setor/analise-por-setor.
     AnalisePorSetorComponent
   ],
   templateUrl: './administrador.html',
-  styleUrls: ['./administrador.css'] // Mantido conforme o teu ficheiro original
+  styleUrls: ['./administrador.css']
 })
 export class Administrador implements OnInit {
   private administradorService = inject(AdministradorService);
@@ -43,7 +43,7 @@ export class Administrador implements OnInit {
 
   ngOnInit(): void {
     const dadosUsuario = localStorage.getItem('usuarioLogado');
-    
+
     if (dadosUsuario) {
       const usuario = JSON.parse(dadosUsuario);
       const idAdministrador = usuario.id;
@@ -52,14 +52,28 @@ export class Administrador implements OnInit {
       this.emailAdmin = usuario.email;
 
       this.administradorService.buscarPorId(idAdministrador).subscribe({
-        next: (data: any) => {
-          this.dashboardData = data;
+        next: (adminData: any) => {
+          if (adminData?.nome) this.nomeAdmin = adminData.nome;
+          if (adminData?.email) this.emailAdmin = adminData.email;
+          this.cdr.detectChanges();
+        },
+        error: (err: any) => {
+          console.error('Erro ao buscar dados do administrador:', err);
+        }
+      });
+
+      // Carrega os dados do dashboard usando os IDs de participação do banco
+      const idsParticipacoes = [1, 2, 3];
+
+      this.administradorService.carregarDadosDashboard(idsParticipacoes).subscribe({
+        next: (dadosDashboard: DashboardData) => {
+          this.dashboardData = dadosDashboard;
           this.isLoading = false;
           this.cdr.detectChanges();
         },
         error: (err: any) => {
-          console.error('Erro ao conectar com o backend Java:', err);
-          this.isLoading = false; 
+          console.error('Erro ao carregar dados do dashboard:', err);
+          this.isLoading = false;
           this.cdr.detectChanges();
         }
       });
